@@ -2,6 +2,7 @@ project(opengl_Window)
 
 file(GLOB_RECURSE SOURCE_LIST 
 *.cpp
+*.c
 *.cxx
 *.h
 *.hpp

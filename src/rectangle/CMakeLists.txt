@@ -1,4 +1,4 @@
-project(opengl_Window)
+project(opengl_Rectangle)
 
 file(GLOB_RECURSE SOURCE_LIST 
 *.cpp
@@ -7,7 +7,6 @@ file(GLOB_RECURSE SOURCE_LIST
 *.h
 *.hpp
 )
-
 
 add_executable(${PROJECT_NAME} ${SOURCE_LIST})
 target_include_directories(${PROJECT_NAME} PRIVATE 

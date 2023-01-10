@@ -8,7 +8,9 @@ file(GLOB_RECURSE SOURCE_LIST
 *.hpp
 )
 
-message(DEBUG ${SOURCE_LIST})
-add_executable(${PROJECT_NAME} ${SOURCE_LIST})
 
+add_executable(${PROJECT_NAME} ${SOURCE_LIST})
+target_include_directories(${PROJECT_NAME} PRIVATE 
+${GLAD_PATH}
+)
 target_link_libraries(${PROJECT_NAME} PRIVATE glfw3)

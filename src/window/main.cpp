@@ -1,15 +1,15 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 using namespace std;
-// ´°¿Ú´óĞ¡¸Ä±ä»Øµ÷º¯Êı
+// çª—å£å¤§å°æ”¹å˜å›è°ƒå‡½æ•°
 static void window_size_changed(GLFWwindow* window,
     int width,
     int height)
 {
     glViewport(0, 0, width, height);
 }
-// ´¦ÀíÓÃ»§ÊäÈë
+// å¤„ç†ç”¨æˆ·è¾“å…¥
 static void process_input(GLFWwindow* window)
 {
 	if(glfwGetKey(window,GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -19,12 +19,12 @@ static void process_input(GLFWwindow* window)
 }
 int main(int argc, char **argv)
 {
-    // ³õÊ¼»¯GLFW
+    // åˆå§‹åŒ–GLFW
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //ÉèÖÃgl Ö÷°æ±¾ºÅ
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); // ÉèÖÃgl ´Î°æ±¾ºÅ
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //è®¾ç½®gl ä¸»ç‰ˆæœ¬å·
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); // è®¾ç½®gl æ¬¡ç‰ˆæœ¬å·
 
-    // Ê¹ÓÃglfw ´´½¨´°¿Ú¶ÔÏó
+    // ä½¿ç”¨glfw åˆ›å»ºçª—å£å¯¹è±¡
     GLFWwindow* window = glfwCreateWindow(800,
         600,
         "study_window",
@@ -37,38 +37,38 @@ int main(int argc, char **argv)
         return -1;
     }
     glfwMakeContextCurrent(window);
-    // ³õÊ¼»¯glad
+    // åˆå§‹åŒ–glad
     if(!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
     {
         cout << "init glad fail" << endl;
         return -1;
     }
-    // ÔÚäÖÈ¾Ö®Ç°±ØĞë¸æÖªgl äÖÈ¾µÄ³ß´ç´óĞ¡
+    // åœ¨æ¸²æŸ“ä¹‹å‰å¿…é¡»å‘ŠçŸ¥gl æ¸²æŸ“çš„å°ºå¯¸å¤§å°
     glViewport(0, 0, 800, 600);
 
-    // Îª´°¿Ú³ß´ç¸Ä±äÉèÖÃ»Øµ÷º¯Êı
+    // ä¸ºçª—å£å°ºå¯¸æ”¹å˜è®¾ç½®å›è°ƒå‡½æ•°
     glfwSetFramebufferSizeCallback(window,
         window_size_changed);
 
 
-    // ¿ªÊ¼äÖÈ¾Ñ­»·
+    // å¼€å§‹æ¸²æŸ“å¾ªç¯
     while (!glfwWindowShouldClose(window))
     {
-        //´¦ÀíÓÃ»§ÊäÈë
+        //å¤„ç†ç”¨æˆ·è¾“å…¥
         process_input(window);
 
-        // ´¦ÀíäÖÈ¾Ö¸Áî
+        // å¤„ç†æ¸²æŸ“æŒ‡ä»¤
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glfwPollEvents();
-        // ½»»»»º³åÇø
+        // äº¤æ¢ç¼“å†²åŒº
         glfwSwapBuffers(window);
 
     }
 
-    // ÇåÀígl fw
+    // æ¸…ç†gl fw
     glfwTerminate();
     return 0;
 }

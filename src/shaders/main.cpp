@@ -18,11 +18,12 @@ static void process_input(GLFWwindow* window)
     }
 }
 
-// 设置一个顶点数据
+// 设置一个顶点数据 将颜色数据和顶点数据都存放到VBO中 顶点缓冲数组中
 static const float vertices[] = {
-    -0.5f,-0.5f,0.0f,
-    0.5f,-0.5f,0.0f,
-    0.0f,0.5f,0.0f
+    // 位置             //颜色
+    -0.5f,-0.5f,0.0f, 1.0f,0.0f,0.0f,
+    0.5f,-0.5f,0.0f,  0.0f,1.0f,0.0f,
+    0.0f,0.5f,0.0f,   0.0f,0.0f,1.0f
 };
 
 // 检测编译着色器代码是否成功
@@ -58,12 +59,13 @@ static bool check_link_program_status(GLuint program_object,std::string& error_m
 
 // 顶点着色器 GLSL 源码
 const char* vertex_shader_source = "#version 330 core \n"
-"layout (location = 0) in vec3 aPos;\n"
-"out vec4 vertexcolor; // 为片段着色器指定一个颜色输出\n"
+"layout (location = 0) in vec3 aPos; // 位置变量的属性位置值为 0 \n"
+"layout (location = 1) in vec3 aColor; // 颜色变量属性的位置值设置为1 \n"
+"out vec3 vertexcolor; // 为片段着色器指定一个颜色输出\n"
 "void main()\n"
 "{\n"
 "gl_Position = vec4(aPos.x,aPos.y,aPos.z,1.0f);\n"
-"vertexcolor = vec4(0.5,0.0,0.0,1.0); // 把输出设置为暗红色\n"
+"vertexcolor = aColor; // 把输出设置为暗红色\n"
 "}\n";
 
 
@@ -71,12 +73,13 @@ const char* vertex_shader_source = "#version 330 core \n"
 const char* fragment_shader_source = "#version 330 core \n"
 "out vec4 frag_color;\n"
 "//in vec4 vertexcolor; // 从顶点着色器传来的输入变量(名称类型相同 opengl 默认会链接到一起)\n"
-"uniform vec4 uniform_color; // 在opengl 程序中设置这个变量值\n"
+"//uniform vec4 uniform_color; // 在opengl 程序中设置这个变量值\n"
+"in vec3 vertexcolor; // 使用顶点着色器中输出的颜色信息\n"
 "void main()\n"
 "{\n"
 "//frag_color = vec4(1.0f,0.5f,0.2f,1.0f);\n"
-"//frag_color = vertexcolor;\n"
-"frag_color = uniform_color;\n"
+"frag_color = vec4(vertexcolor,1.0f);\n"
+"//frag_color = uniform_color;\n"
 "}\n";
 
 int main(int argc, char** argv)
@@ -193,16 +196,26 @@ int main(int argc, char** argv)
     // 将内存中的顶点缓冲数据复制到 显存中的顶点缓冲区中
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    // 链接顶点属性
+    // 设置位置顶点属性
     glVertexAttribPointer(0,
         3,
         GL_FLOAT,
         GL_FALSE,
-        3 * sizeof(float),
+        6 * sizeof(float),
         nullptr);
-
     // 启用顶点属性数组中 指定位置的顶点属性
     glEnableVertexAttribArray(0);
+
+    //设置颜色顶点属性
+    glVertexAttribPointer(1,
+    3,
+    GL_FLOAT,
+    GL_FALSE,
+    6 * sizeof(float),
+    (void*)(3 * sizeof(float)));
+
+    // 启用顶点属性数组中 指定颜色的顶点属性
+    glEnableVertexAttribArray(1);
 
     // 开始渲染循环
     while (!glfwWindowShouldClose(window))
@@ -215,18 +228,18 @@ int main(int argc, char** argv)
         glClear(GL_COLOR_BUFFER_BIT);
 
         //使用uniform 根据时间动态改变这个三角形的片段着色器输出的颜色
-        const float current_time_value = glfwGetTime();
+  /*      const float current_time_value = glfwGetTime();
         const float color_value = sin(current_time_value) / 2.0f + 0.5f;
-        const auto uniform_color_location = glGetUniformLocation(shader_program, "uniform_color");
+        const auto uniform_color_location = glGetUniformLocation(shader_program, "uniform_color");*/
         // 使用这个着色器程序
         glUseProgram(shader_program);
         // 动态更新颜色信息
-        if(uniform_color_location != -1){
+ /*       if(uniform_color_location != -1){
             glUniform4f(uniform_color_location, 0.0,
             color_value,
             0.0,
             1.0f);
-        }
+        }*/
         // 绑定顶点数组VAO
         glBindVertexArray(VAO);
         // 渲染三角形

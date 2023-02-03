@@ -1,6 +1,7 @@
 #include <iostream>
-#include "glad/glad.h"
+#include "shaders.hpp"
 #include "GLFW/glfw3.h"
+
 using namespace std;
 // 窗口大小改变回调函数
 static void window_size_changed(GLFWwindow* window,

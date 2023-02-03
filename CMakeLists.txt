@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED on)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${CMAKE_SOURCE_DIR}/lib)
 include_directories(${CMAKE_SOURCE_DIR}/3rd/include)
+include_directories(${CMAKE_SOURCE_DIR}/utils)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/3rd)
